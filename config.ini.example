@@ -1,0 +1,37 @@
+[Proxy]
+listen_host    = 0.0.0.0
+listen_port    = 7776
+game_host      = 127.0.0.1
+game_port      = 7777
+session_timeout = 120
+require_auth   = true
+
+[Database]
+path = elefrac.db
+
+[GameServer]
+exe_path              = BaseServer/g3/Win64-Test.exe
+args                  =
+log_path              = BaseServer/g3/Saved/Logs/g3.log
+gamemode              = solos
+port                  = 7777
+restart_on_match_end  = true
+idle_restart_minutes  = 30
+use_wine              = false
+
+[MatchTracker]
+; state_file is written by the match_tracker DLL every second.
+; Path is relative to the game exe's working directory (BaseServer/g3/).
+; Leave blank to fall back to TCP on tracker_port instead.
+state_file    = BaseServer/g3/match_state.json
+port          = 4951
+poll_interval = 2.0
+
+[Broadcast]
+host = 0.0.0.0
+port = 4947
+
+[Control]
+host     = 127.0.0.1
+port     = 8880
+password = changeme

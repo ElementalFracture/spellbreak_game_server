@@ -1,0 +1,138 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.panel {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+h1 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  color: #8b949e;
+  margin-bottom: 1rem;
+}
+
+label input {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #e6edf3;
+  font-size: 1rem;
+  transition: border-color 0.15s;
+}
+
+label input:focus {
+  outline: none;
+  border-color: #388bfd;
+}
+
+button[type="submit"],
+button[type="button"] {
+  display: block;
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.75rem;
+  background: #238636;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+button:hover {
+  background: #2ea043;
+}
+
+.error {
+  color: #f85149;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.hint {
+  margin-top: 1.25rem;
+  font-size: 0.825rem;
+  color: #8b949e;
+}
+
+.hint a {
+  color: #388bfd;
+  text-decoration: none;
+}
+
+.hint a:hover {
+  text-decoration: underline;
+}
+
+.token-box {
+  background: #0d1117;
+  border: 1px solid #388bfd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.token-box p {
+  font-size: 0.875rem;
+  color: #8b949e;
+  margin-bottom: 0.5rem;
+}
+
+.token-box code {
+  display: block;
+  font-family: 'Courier New', monospace;
+  font-size: 1.15rem;
+  letter-spacing: 0.12em;
+  color: #79c0ff;
+  word-break: break-all;
+  margin-bottom: 0.5rem;
+}
+
+.token-box button {
+  width: auto;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.825rem;
+  background: #21262d;
+  border: 1px solid #30363d;
+  margin-top: 0;
+}
+
+.token-box button:hover {
+  background: #30363d;
+}
+
+.token-box .hint {
+  margin-top: 0.5rem;
+}

@@ -1,0 +1,78 @@
+import configparser
+
+
+class Config:
+    def __init__(self, path: str = 'config.ini'):
+        self._cfg = configparser.ConfigParser()
+        if not self._cfg.read(path):
+            raise FileNotFoundError(f'Config file not found: {path}')
+
+    def _s(self, section, key, fallback=None):
+        return self._cfg.get(section, key, fallback=fallback)
+
+    def _i(self, section, key, fallback=None):
+        return self._cfg.getint(section, key, fallback=fallback)
+
+    def _f(self, section, key, fallback=None):
+        return self._cfg.getfloat(section, key, fallback=fallback)
+
+    def _b(self, section, key, fallback=None):
+        return self._cfg.getboolean(section, key, fallback=fallback)
+
+    # Proxy
+    @property
+    def proxy_host(self):       return self._s('Proxy', 'listen_host', '0.0.0.0')
+    @property
+    def proxy_port(self):       return self._i('Proxy', 'listen_port', 7776)
+    @property
+    def game_host(self):        return self._s('Proxy', 'game_host', '127.0.0.1')
+    @property
+    def game_port(self):        return self._i('Proxy', 'game_port', 7777)
+    @property
+    def session_timeout(self):  return self._i('Proxy', 'session_timeout', 120)
+    @property
+    def require_auth(self):     return self._b('Proxy', 'require_auth', True)
+
+    # Database
+    @property
+    def db_path(self):          return self._s('Database', 'path', 'elefrac.db')
+
+    # GameServer
+    @property
+    def game_exe(self):                 return self._s('GameServer', 'exe_path', '')
+    @property
+    def game_args(self):                return self._s('GameServer', 'args', '')
+    @property
+    def log_path(self):                 return self._s('GameServer', 'log_path', '')
+    @property
+    def gamemode(self):                 return self._s('GameServer', 'gamemode', '')
+    @property
+    def server_port(self):              return self._i('GameServer', 'port', 7777)
+    @property
+    def restart_on_match_end(self):     return self._b('GameServer', 'restart_on_match_end', True)
+    @property
+    def idle_restart_minutes(self):     return self._i('GameServer', 'idle_restart_minutes', 30)
+    @property
+    def use_wine(self):                 return self._b('GameServer', 'use_wine', False)
+
+    # MatchTracker
+    @property
+    def tracker_state_file(self):       return self._s('MatchTracker', 'state_file', '')
+    @property
+    def tracker_port(self):             return self._i('MatchTracker', 'port', 4951)
+    @property
+    def tracker_poll_interval(self):    return self._f('MatchTracker', 'poll_interval', 2.0)
+
+    # Broadcast
+    @property
+    def broadcast_host(self):   return self._s('Broadcast', 'host', '0.0.0.0')
+    @property
+    def broadcast_port(self):   return self._i('Broadcast', 'port', 4947)
+
+    # Control
+    @property
+    def control_host(self):     return self._s('Control', 'host', '127.0.0.1')
+    @property
+    def control_port(self):     return self._i('Control', 'port', 8880)
+    @property
+    def control_password(self): return self._s('Control', 'password', '')

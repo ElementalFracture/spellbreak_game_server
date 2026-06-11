@@ -1,0 +1,32 @@
+# ─── Game server binaries (not source-controlled) ────────────────────────────
+BaseServer/Engine/
+BaseServer/g3/
+
+# ─── Compiled mod DLLs (distribute separately) ───────────────────────────────
+BaseServer/Mods/dlls/*
+!BaseServer/Mods/dlls/.gitkeep
+
+# ─── Runtime / legacy directories ────────────────────────────────────────────
+Instances/
+GameServer/ProcessLogs/
+
+# ─── Python bytecode ─────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+
+# ─── Databases ───────────────────────────────────────────────────────────────
+*.db
+*.db-wal
+*.db-shm
+
+# ─── Logs ────────────────────────────────────────────────────────────────────
+*.log
+
+# ─── Credentials and secrets ─────────────────────────────────────────────────
+# Rename config.ini.example → config.ini and fill in real values locally.
+config.ini
+*.token
+*.secret
+.env
+.env.*
