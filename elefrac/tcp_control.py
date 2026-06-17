@@ -39,6 +39,7 @@ Modding toolkit hook point:
 import asyncio
 import json
 import logging
+import re
 import secrets
 from typing import Optional
 
@@ -47,6 +48,8 @@ from .database import Database
 from .match_state import MatchStateManager
 
 log = logging.getLogger(__name__)
+
+_USERNAME_RE = re.compile(r"^[A-Za-z0-9 '._-]{1,20}$")
 
 
 class ControlServer:
@@ -244,9 +247,12 @@ class ControlServer:
                 elif cmd == 'REGISTER':
                     # REGISTER <discord_id> <username>
                     discord_id = parts[1] if len(parts) > 1 else ''
-                    username   = parts[2] if len(parts) > 2 else ''
+                    username   = ' '.join(parts[2:]).strip() if len(parts) > 2 else ''
                     if not discord_id or not username:
                         await reply({'ok': False, 'error': 'discord_id and username required'})
+                        continue
+                    if not _USERNAME_RE.match(username):
+                        await reply({'ok': False, 'error': 'invalid_username'})
                         continue
                     existing_discord = await self._db.get_user_by_discord_id(discord_id)
                     if existing_discord:
