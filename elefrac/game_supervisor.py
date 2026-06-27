@@ -98,9 +98,13 @@ class GameSupervisor:
             cmd.append('wine')
         cmd.append(self._cfg.game_exe)
         if self._cfg.game_args:
-            cmd.extend(self._cfg.game_args.split())
-        if self._cfg.gamemode:
-            cmd.append(f'?game={self._cfg.gamemode}')
+            args = self._cfg.game_args
+            if self._cfg.gamemode:
+                import re as _re
+                args = _re.sub(r'\?game=[^?&\s]+', f'?game={self._cfg.gamemode}', args)
+                if '?game=' not in args:
+                    args += f'?game={self._cfg.gamemode}'
+            cmd.extend(args.split())
         cmd.append(f'-port={self._cfg.server_port}')
 
         log.info('Launching: %s', ' '.join(cmd))

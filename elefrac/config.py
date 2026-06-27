@@ -59,7 +59,8 @@ class Config:
     @property
     def log_path(self):                 return self._s('GameServer', 'log_path', '')
     @property
-    def gamemode(self):                 return self._s('GameServer', 'gamemode', '')
+    def gamemode(self):
+        return os.environ.get('GAMEMODE', '').strip() or self._s('GameServer', 'gamemode', '')
     @property
     def server_port(self):              return self._i('GameServer', 'port', 7777)
     @property
