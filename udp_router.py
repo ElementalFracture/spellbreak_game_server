@@ -395,6 +395,13 @@ async def _db_create_token(user_id: int, token: str) -> bool:
         return False
 
 
+async def _db_delete_user(user_id: int) -> None:
+    async with aiosqlite.connect(AUTH_DB) as db:
+        await db.execute('DELETE FROM tokens WHERE user_id = ?', (user_id,))
+        await db.execute('DELETE FROM users WHERE id = ?', (user_id,))
+        await db.commit()
+
+
 async def _db_set_staff(user_id: int, value: bool) -> None:
     async with aiosqlite.connect(AUTH_DB) as db:
         await db.execute('UPDATE users SET is_staff = ? WHERE id = ?', (int(value), user_id))
@@ -547,6 +554,20 @@ async def _handle_control_client(
                     continue
                 ctrl_log.info('ROTATE_TOKEN discord=%s username=%s', discord_id, user['username'])
                 await reply({'ok': True, 'token': token, 'username': user['username']})
+
+            elif cmd == 'DELETE_REGISTRATION':
+                discord_id = parts[1] if len(parts) > 1 else ''
+                if not discord_id:
+                    await reply({'ok': False, 'error': 'discord_id required'})
+                    continue
+                user = await _db_get_user_by_discord(discord_id)
+                if not user:
+                    await reply({'ok': False, 'error': 'not_registered'})
+                    continue
+                username = user['username']
+                await _db_delete_user(user['id'])
+                ctrl_log.info('DELETE_REGISTRATION discord=%s username=%s', discord_id, username)
+                await reply({'ok': True, 'username': username})
 
             elif cmd == 'GRANT_STAFF':
                 discord_id = parts[1] if len(parts) > 1 else ''
