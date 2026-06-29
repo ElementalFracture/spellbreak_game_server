@@ -440,8 +440,8 @@ async def _handle_auth_client(
             line = await asyncio.wait_for(reader.readline(), timeout=10)
         except asyncio.TimeoutError:
             return
-        token = line.decode('utf-8', errors='replace').strip()
-        if not token:
+        token = line.decode('ascii', errors='replace').strip()
+        if not token or len(token) > 128 or '?' in token:
             writer.write(b'FAIL\n')
             await writer.drain()
             return
@@ -643,6 +643,7 @@ async def main() -> None:
         level=logging.DEBUG,
         format='%(asctime)s [%(name)s] %(levelname)s %(message)s',
     )
+    logging.getLogger('aiosqlite').setLevel(logging.WARNING)
     loop = asyncio.get_running_loop()
     proto = RouterProtocol()
     await loop.create_datagram_endpoint(
